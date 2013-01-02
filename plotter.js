@@ -55,11 +55,10 @@ function plot_to_pdf(data, filename, options) {
 	}
 
 	/* The title */
-	gnuplot.stdin.write('set title "Ionospheric Bounce signal from DHO38, Rhauderfehn, Germany');
+	gnuplot.stdin.write('set title ""');
 	if (options.time_string) { gnuplot.stdin.write(' for '+options.time_string); }
 	gnuplot.stdin.write('.\\n');
-	gnuplot.stdin.write('Recevied in Chelmsford UK with an Audio ADC (33dB preamp gain, 0dB PGA gain).\\n');
-	gnuplot.stdin.write('Processed with 1024 point FFT followed by a square filter (Centre: 23.4kHz, Width: 225Hz)"\n');
+	gnuplot.stdin.write('bfhd.\\n');
 	
 	gnuplot.stdin.write('set ylabel "Relative Signal Strength"\n');
 	gnuplot.stdin.write('set nokey\n');
