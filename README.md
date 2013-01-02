@@ -10,7 +10,7 @@ TODO: npm
 
 ## Usage ##
 
-```
+```javascript
 var plot = require('plotter').plot;
 
 plot({	'title' : 'example',
