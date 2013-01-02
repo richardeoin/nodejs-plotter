@@ -52,9 +52,15 @@ function post_gnuplot_processing(error, stdout, stderr) {
 
 /**
  * Plots data to a PDF file. If it does not exist, the PDF file will be created, otherwise this plot will
- * be appended as a new page. TODO: Describe options object.
+ * be appended as a new page.
  */
-function plot_to_pdf(options) {
+function plot(options) {
+	/* Required Options */
+	if (!options.data || !options.filename) {
+		throw("The options object must have 'data' and 'filename' properties!");
+		return;
+	}
+
 	/* Defaults */
 	if (!options.style) {
 		options.style = 'lines'; /* Default to lines */
@@ -79,7 +85,7 @@ function plot_to_pdf(options) {
 		gnuplot.stdin.write('set xlabel "time"\n');
 	}
 	if (options.title) {
-		gnuplot.stdin.write('set title "'+options.title+"');
+		gnuplot.stdin.write('set title "'+options.title+'"');
 	}
 	if (options.logscale) {
 		gnuplot.stdin.write('set logscale y\n');
@@ -125,4 +131,4 @@ function plot_to_pdf(options) {
 
 /* -------- Exports -------- */
 
-exports.plot_to_pdf = plot_to_pdf;
+exports.plot = plot;
