@@ -69,7 +69,7 @@ function plot(options) {
 	/* Execute Gnuplot specifing a function to be called when it terminates */
 	gnuplot = exec('gnuplot | ps2pdf - '+options.filename, post_gnuplot_processing);
 
-	/* Setup Gnuplot output */
+	/* Setup Gnuplot output to postscripts so ps2pdf can interpret it */
 	gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
 	
 	/* Formatting Options */
@@ -85,7 +85,7 @@ function plot(options) {
 		gnuplot.stdin.write('set xlabel "time"\n');
 	}
 	if (options.title) {
-		gnuplot.stdin.write('set title "'+options.title+'"');
+		gnuplot.stdin.write('set title "'+options.title+'"\n');
 	}
 	if (options.logscale) {
 		gnuplot.stdin.write('set logscale y\n');
@@ -97,33 +97,27 @@ function plot(options) {
 	gnuplot.stdin.write('set nokey\n');
 	gnuplot.stdin.write('set grid xtics ytics mxtics\n');
 	gnuplot.stdin.write('set mxtics\n');
-		
+
+	/* Find out how many series there are */
+	var series_count = _.values(options.data).length;
+	
 	/* Print the command to actually do the plot */
 	gnuplot.stdin.write('plot');
 	var i = 1;
 	while (1) {
 		gnuplot.stdin.write('\'-\' using 1:2 with '+options.style+' lt 1 lc '+(i++));
-		if (i > options.data.length) { break; }
+		if (i > series_count) { break; }
 		gnuplot.stdin.write(',');
 	}
 	gnuplot.stdin.write('\n');
 	
 	/* Print out the data */
-
-	if (options.series_count == -1) { /* No series */
-		for (key in data) { /* Foreach datapoint */
-			gnuplot.stdin.write(key+' '+data[key]+'\n');
+	for (series in options.data) { /* For each series */
+		for (key in options.data[series]) { /* For each datapoint */
+			gnuplot.stdin.write(key+' '+options.data[series][key]+'\n');
 		}
-	} else {
-		for (var i = 0; i < options.series_count; i++) { /* Print out all the series */
-			/* Write out the data */
-			for (key in data) { /* Foreach datapoint */
-				gnuplot.stdin.write(key+' '+data[key][i]+'\n');
-			}
-
-			/* Terminate the data */
-			gnuplot.stdin.write('e\n');
-		}
+		/* Terminate the data */
+		gnuplot.stdin.write('e\n');
 	}
 
 	gnuplot.stdin.end();
