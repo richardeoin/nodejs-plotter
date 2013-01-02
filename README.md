@@ -80,3 +80,13 @@ This will plot the points with a 4-point moving average. A `moving_max` can also
 
 ### Time Formatting ###
 
+```javascript
+plot({
+	'data' : { 'temperature' : { 1357162672: 22, 1357162782: 23, 1357162892: 24 } },
+	'time' : 'hours',
+	'filename' : 'output.pdf'
+});
+```
+
+The x axis can be formatted as a time series if the x values are given as a [unix time](http://en.wikipedia.org/wiki/Unix_time). The `'time'` property can be specified as either `'hours'` (the default), `'days'` or with a [gnuplot time format](http://gnuplot.sourceforge.net/docs_4.2/node274.html) like `'%H:%M'`.
+
