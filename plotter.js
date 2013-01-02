@@ -39,7 +39,7 @@ function moving_maximum(array, n) {
  * Returns the string to give to gnuplot based on the value of options.time.
  */
 function time_format(options) {
-	if (_.isString(options.time) {
+	if (_.isString(options.time)) {
 		/* Translate the string we've been given into a format */
 		switch(options.time) {
 			case 'days':
@@ -89,7 +89,6 @@ function setup_gnuplot(gnuplot, options) {
 	/* TODO */
 	gnuplot.stdin.write('set nokey\n');
 }
-
 /**
  * Called after Gnuplot has finished.
  */
@@ -116,7 +115,7 @@ function plot(options) {
 	}
 	/* Translate data into an object if needs be */
 	if (_.isArray(options.data)) {
-		options.data = { options.data };
+		options.data = { 'Series 1': options.data };
 	}
 
 	/* Defaults */
