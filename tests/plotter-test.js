@@ -33,4 +33,18 @@ plot({	'title' : 'example',
 	'filename' : 'output5.pdf'
 });
 
+plot({	'title' : 'example',
+	'data' : { 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ], 'line' : { 1: 5, 5: 6 } },
+	'moving_avg': 4,
+	'style'	: 'lines',
+	'filename' : 'output6.pdf'
+});
+
+plot({	'title' : 'example',
+	'data' : { 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ], 'line' : { 1: 5, 5: 6 } },
+	'moving_max': 2,
+	'style'	: 'lines',
+	'filename' : 'output7.pdf'
+});
+
 console.log("Done!");

@@ -20,6 +20,8 @@ function moving_average(array, n) {
 		var sum = _.reduce(nums, function(memo, num){ return memo + num; }, 0);
 		array[i] = sum/nums.length;
 	}
+	
+	return array;
 }
 /**
  * Performs a n-point maximum on array.
@@ -34,6 +36,21 @@ function moving_maximum(array, n) {
 		var maximum = _.max(nums);
 		array[i] = maximum;
 	}
+	
+	return array;
+}
+/**
+ * Applys an n-point moving filter to a set of series.
+ */
+function apply_moving_filter(set, filter, n) {
+	if (!_.isNumber(n)) { n = 3; }
+	
+	for (series in set) { /* For each series */
+		/* Apply the filter */
+		set[series] = filter(set[series], n);
+	}
+	
+	return set;
 }
 /**
  * Returns the string to give to gnuplot based on the value of options.time.
@@ -121,6 +138,14 @@ function plot(options) {
 	/* Defaults */
 	if (!options.style) {
 		options.style = 'lines'; /* Default to lines */
+	}
+	
+	/* Apply moving averages and maximums */
+	if (options.moving_avg) {
+		options.data = apply_moving_filter(options.data, moving_average, options.moving_avg);
+	}
+	if (options.moving_max) {
+		options.data = apply_moving_filter(options.data, moving_maximum, options.moving_max);
 	}
 
 	/* Execute Gnuplot specifing a function to be called when it terminates */
