@@ -20,6 +20,8 @@ plot({	'title' : 'example',
 });
 ```
 
+
+
 ### Moving Averages and Maximums ###
 
 

@@ -80,6 +80,10 @@ function plot(options) {
 		throw("The options object must have 'data' and 'filename' properties!");
 		return;
 	}
+	/* Translate data into an object if needs be */
+	if (_.isArray(options.data)) {
+		options.data = { options.data };
+	}
 
 	/* Defaults */
 	if (!options.style) {
