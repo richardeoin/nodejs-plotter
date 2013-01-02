@@ -1,0 +1,16 @@
+{
+	"name": "plotter",
+	"version": "0.0.1",
+	"description": "plotter",
+	"private": true,
+	"dependencies": {
+	  	"hat": "0.x.x",
+		"optimist": "0.x.x",
+		"binary": "0.x.x",
+		"moment": "1.x.x",
+		"cradle": "0.x.x",
+		"fft": "0.x.x",
+		"colors": "0.x.x"
+	},
+	"engine": "node >= 0.8.14"
+}
