@@ -35,7 +35,7 @@ The following example shows these in use:
 ```javascript
 plot({	
 	'data' : [ 3, 1, 2, 3, 4 ],
-	'filename' : 'output2.pdf',
+	'filename' : 'output.pdf',
 	'style'	: 'linespoints',
 	'title' : 'Example Title, \\n runs onto multiple lines',
 	'logscale': true,
@@ -44,8 +44,39 @@ plot({
 });
 ```
 
+### Specifing X and Y values ###
+
+```javascript
+plot({
+	'data' : { 'line' : { 1: 5, 5: 6 } },
+	'filename' : 'output.pdf'
+});
+```
+
+Instead of specifing an array for `data`, you can specify an object with a named series inside.
+
 ### Multiple Series ###
+
+```javascript
+plot({
+	'data' : { 'tick' : [ 3, 1, 2, 3, 4 ], 'line' : { 1: 5, 5: 6 } },
+	'filename' : 'output.pdf'
+});
+```
+
+You can specify multiple series inside an object.
 
 ### Moving Averages and Maximums ###
 
+```javascript
+plot({
+	'data' : { 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ] },
+	'filename' : 'output.pdf'
+	'moving_avg': 4,
+});
+```
+
+This will plot the points with a 4-point moving average. A `moving_max` can also be specified, which if applied alongside a `moving_avg` will be calculated after the moving average.
+
+### Time Formatting ###
 
