@@ -55,6 +55,40 @@ function time_format(options) {
 		return "%H:%M";
 	}
 }
+/**
+ * Sets up gnuplot based on the properties we're given in the options object.
+ */
+function setup_gnuplot(gnuplot, options) {
+	/* Setup Gnuplot output to postscript so ps2pdf can interpret it */
+	gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
+	
+	/* Formatting Options */
+	if (options.time) {
+		gnuplot.stdin.write('set xdata time\n');
+		gnuplot.stdin.write('set timefmt "%s"\n');
+		gnuplot.stdin.write('set format x "' + time_format(options.time) + '"\n');
+		gnuplot.stdin.write('set xlabel "time"\n');
+	}
+	if (options.title) {
+		gnuplot.stdin.write('set title "'+options.title+'"\n');
+	}
+	if (options.logscale) {
+		gnuplot.stdin.write('set logscale y\n');
+	}
+	if (options.xlabel) {
+		gnuplot.stdin.write('set xlabel "'+options.xlabel+'"\n');
+	}
+	if (options.ylabel) {
+		gnuplot.stdin.write('set ylabel "'+options.ylabel+'"\n');
+	}
+	
+	/* Setup ticks */
+	gnuplot.stdin.write('set grid xtics ytics mxtics\n');
+	gnuplot.stdin.write('set mxtics\n');
+	
+	/* TODO */
+	gnuplot.stdin.write('set nokey\n');
+}
 
 /**
  * Called after Gnuplot has finished.
@@ -93,35 +127,8 @@ function plot(options) {
 	/* Execute Gnuplot specifing a function to be called when it terminates */
 	gnuplot = exec('gnuplot | ps2pdf - '+options.filename, post_gnuplot_processing);
 
-	/* Setup Gnuplot output to postscript so ps2pdf can interpret it */
-	gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
-	
-	/* Formatting Options */
-	if (options.time) {
-		gnuplot.stdin.write('set xdata time\n');
-		gnuplot.stdin.write('set timefmt "%s"\n');
-		gnuplot.stdin.write('set format x "' + time_format(options.time) + '"\n');
-		gnuplot.stdin.write('set xlabel "time"\n');
-	}
-	if (options.title) {
-		gnuplot.stdin.write('set title "'+options.title+'"\n');
-	}
-	if (options.logscale) {
-		gnuplot.stdin.write('set logscale y\n');
-	}
-	if (options.xlabel) {
-		gnuplot.stdin.write('set xlabel "'+options.xlabel+'"\n');
-	}
-	if (options.ylabel) {
-		gnuplot.stdin.write('set ylabel "'+options.ylabel+'"\n');
-	}
-	
-	/* Setup ticks */
-	gnuplot.stdin.write('set grid xtics ytics mxtics\n');
-	gnuplot.stdin.write('set mxtics\n');
-	
-	/* TODO */
-	gnuplot.stdin.write('set nokey\n');
+	/* Sets up gnuplot based on the properties we've been given in the options object */
+	setup_gnuplot(gnuplot, options);
 
 	/* Find out how many series there are */
 	var series_count = _.values(options.data).length;
