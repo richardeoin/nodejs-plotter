@@ -37,7 +37,7 @@ plot({
 	'data' : [ 3, 1, 2, 3, 4 ],
 	'filename' : 'output.pdf',
 	'style'	: 'linespoints',
-	'title' : 'Example Title, \\n runs onto multiple lines',
+	'title' : 'Example \'Title\', \\n runs onto multiple lines',
 	'logscale': true,
 	'xlabel': 'time',
 	'ylabel': 'length of string'
@@ -71,8 +71,8 @@ You can specify multiple series inside an object.
 ```javascript
 plot({
 	'data' : { 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ] },
-	'filename' : 'output.pdf'
-	'moving_avg': 4,
+	'filename' : 'output.pdf',
+	'moving_avg': 4
 });
 ```
 
