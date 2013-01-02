@@ -54,22 +54,20 @@ function post_gnuplot_processing(error, stdout, stderr) {
  * Plots data to a PDF file. If it does not exist, the PDF file will be created, otherwise this plot will
  * be appended as a new page. TODO: Describe options object.
  */
-function plot_to_pdf(data, filename, options) {
-	if (!options.series_count) {
-		options.series_count = -1; /* Flag as only having a single series */
-	}
+function plot_to_pdf(options) {
+	/* Defaults */
 	if (!options.style) {
 		options.style = 'lines'; /* Default to lines */
 	}
 
 	/* Execute Gnuplot specifing a function to be called when it terminates */
-	gnuplot = exec('gnuplot | ps2pdf - '+filename, post_gnuplot_processing);
+	gnuplot = exec('gnuplot | ps2pdf - '+options.filename, post_gnuplot_processing);
 
 	/* Setup Gnuplot output */
 	gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
 	
+	/* Formatting Options */
 	if (options.time) {
-		/* Setup the x axis for time */
 		gnuplot.stdin.write('set xdata time\n');
 		gnuplot.stdin.write('set timefmt "%s"\n');
 		if (options.time == 'days') { /* Time format */
@@ -80,41 +78,31 @@ function plot_to_pdf(data, filename, options) {
 		gnuplot.stdin.write('set format x "'+time_fmt+'"\n');
 		gnuplot.stdin.write('set xlabel "time"\n');
 	}
+	if (options.title) {
+		gnuplot.stdin.write('set title "'+options.title+"');
+	}
 	if (options.logscale) {
 		gnuplot.stdin.write('set logscale y\n');
 	}
-
-	/* The title */
-	gnuplot.stdin.write('set title ""');
-	if (options.time_string) { gnuplot.stdin.write(' for '+options.time_string); }
-	gnuplot.stdin.write('.\\n');
-	gnuplot.stdin.write('bfhd.\\n');
+	if (options.ylabel) {
+		gnuplot.stdin.write('set ylabel "'+options.ylabel+'"\n');
+	}
 	
-	gnuplot.stdin.write('set ylabel "Relative Signal Strength"\n');
 	gnuplot.stdin.write('set nokey\n');
 	gnuplot.stdin.write('set grid xtics ytics mxtics\n');
 	gnuplot.stdin.write('set mxtics\n');
-	
-	/* The style string we use for the nth series */
-	var series_style = function(n) { gnuplot.stdin.write('\'-\' using 1:2 with '+options.style+' lt 1 lc '+(n+1)); }
-	
-	if (options.moving_avg) {
 		
-
-		/* Do the Plot */
-		gnuplot.stdin.write('plot sum = init(0),');
-		for (var i = 0; i < options.series_count-1; i++) {
-			gnuplot.stdin.write('\'-\' using 1:(max3($2)) with lines,');
-		}
-		gnuplot.stdin.write('\'-\' using 1:(max3($2)) with lines\n');
-	} else {
-		/* Do the plot */
-		gnuplot.stdin.write('plot');
-		for (var i = 0; i < options.series_count-1; i++) {
-			series_style(i); gnuplot.stdin.write(',');
-		}
-		series_style(i); gnuplot.stdin.write('\n');
+	/* Print the command to actually do the plot */
+	gnuplot.stdin.write('plot');
+	var i = 1;
+	while (1) {
+		gnuplot.stdin.write('\'-\' using 1:2 with '+options.style+' lt 1 lc '+(i++));
+		if (i > options.data.length) { break; }
+		gnuplot.stdin.write(',');
 	}
+	gnuplot.stdin.write('\n');
+	
+	/* Print out the data */
 
 	if (options.series_count == -1) { /* No series */
 		for (key in data) { /* Foreach datapoint */

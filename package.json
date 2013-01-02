@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"description": "plotter",
 	"dependencies": {
+		"underscore" : "1.4.3"
 	},
 	"engine": "node >= 0.8.14"
 }

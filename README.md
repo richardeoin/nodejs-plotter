@@ -9,3 +9,17 @@ sudo apt-get install gnuplot ghostscript
 TODO: npm
 
 ## Usage ##
+
+```
+var plot = require('plotter').plot;
+
+plot({	'title' : 'example',
+	'data' : { 'tick' : [ 3, 1, 2, 3, 4 ] },
+	'style'	: 'lines',
+	'filename' : 'output.pdf'
+});
+```
+
+### Moving Averages and Maximums ###
+
+
