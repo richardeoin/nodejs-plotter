@@ -35,6 +35,26 @@ function moving_maximum(array, n) {
 		array[i] = maximum;
 	}
 }
+/**
+ * Returns the string to give to gnuplot based on the value of options.time.
+ */
+function time_format(options) {
+	if (_.isString(options.time) {
+		/* Translate the string we've been given into a format */
+		switch(options.time) {
+			case 'days':
+			case 'Days':
+				return "%d/%m";
+			case 'hours':
+			case 'Hours':
+				return "%H:%M";
+			default: /* Presume we've been given a gnuplot-readable time format string */
+				return options.time;
+		}
+	} else { /* Just default to hours */
+		return "%H:%M";
+	}
+}
 
 /**
  * Called after Gnuplot has finished.
@@ -69,19 +89,14 @@ function plot(options) {
 	/* Execute Gnuplot specifing a function to be called when it terminates */
 	gnuplot = exec('gnuplot | ps2pdf - '+options.filename, post_gnuplot_processing);
 
-	/* Setup Gnuplot output to postscripts so ps2pdf can interpret it */
+	/* Setup Gnuplot output to postscript so ps2pdf can interpret it */
 	gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
 	
 	/* Formatting Options */
 	if (options.time) {
 		gnuplot.stdin.write('set xdata time\n');
 		gnuplot.stdin.write('set timefmt "%s"\n');
-		if (options.time == 'days') { /* Time format */
-			var time_fmt = "%d/%m";
-		} else {
-			var time_fmt = "%H:%M";
-		}
-		gnuplot.stdin.write('set format x "'+time_fmt+'"\n');
+		gnuplot.stdin.write('set format x "' + time_format(options.time) + '"\n');
 		gnuplot.stdin.write('set xlabel "time"\n');
 	}
 	if (options.title) {
@@ -90,13 +105,19 @@ function plot(options) {
 	if (options.logscale) {
 		gnuplot.stdin.write('set logscale y\n');
 	}
+	if (options.xlabel) {
+		gnuplot.stdin.write('set xlabel "'+options.xlabel+'"\n');
+	}
 	if (options.ylabel) {
 		gnuplot.stdin.write('set ylabel "'+options.ylabel+'"\n');
 	}
 	
-	gnuplot.stdin.write('set nokey\n');
+	/* Setup ticks */
 	gnuplot.stdin.write('set grid xtics ytics mxtics\n');
 	gnuplot.stdin.write('set mxtics\n');
+	
+	/* TODO */
+	gnuplot.stdin.write('set nokey\n');
 
 	/* Find out how many series there are */
 	var series_count = _.values(options.data).length;
