@@ -47,4 +47,12 @@ plot({	'title' : 'example',
 	'filename' : 'output7.pdf'
 });
 
+plot({	'title' : 'example',
+	'data' : { 'temperature' : { 1357162672: 22, 1357162782: 23, 1357162892: 24 } },
+	'time' : 'hours',
+	'style'	: 'linespoints',
+	'filename' : 'output8.pdf'
+});
+
+
 console.log("Done!");
