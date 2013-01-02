@@ -3,8 +3,38 @@
 /* -------- Includes -------- */
 
 var exec = require('child_process').exec;
+var _ = require('underscore');
 
 /* -------- Helper Functions -------- */
+
+/**
+ * Performs a n-point moving average on array.
+ */
+function moving_average(array, n) {
+	var nums = [];
+	
+	for (i in _.range(array.length)) { /* Sequential Foreach */
+		nums.push(array[i]);
+		if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
+		/* Take the average of the n items in this array */
+		var sum = _.reduce(nums, function(memo, num){ return memo + num; }, 0);
+		array[i] = sum/nums.length;
+	}
+}
+/**
+ * Performs a n-point maximum on array.
+ */
+function moving_maximum(array, n) {
+	var nums = [];
+	
+	for (i in _.range(array.length)) { /* Sequential Foreach */
+		nums.push(array[i]);
+		if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
+		/* Take the average of the n items in this array */
+		var maximum = _.max(nums);
+		array[i] = maximum;
+	}
+}
 
 /**
  * Called after Gnuplot has finished.
@@ -69,17 +99,7 @@ function plot_to_pdf(data, filename, options) {
 	var series_style = function(n) { gnuplot.stdin.write('\'-\' using 1:2 with '+options.style+' lt 1 lc '+(n+1)); }
 	
 	if (options.moving_avg) {
-		/* Setup a 3-point moving average */
-		gnuplot.stdin.write('samples(x) = $0 > 2 ? 3 : ($0+1)\n');
-		gnuplot.stdin.write('init(x) = (back1 = back2 = back3 = back4 = back5 = sum = 0)\n');
-		gnuplot.stdin.write('max(x,y) = x > y ? x : y\n');
-		gnuplot.stdin.write('shift3(x) = (back3 = back2, back2 = back1, back1 = x)\n');
-		gnuplot.stdin.write('shift5(x) = (back5 = back4, back4 = back3, shift3(x))\n');
-		/* Moving Averages */
-		gnuplot.stdin.write('avg3(x) = (shift3(x), (back1+back2+back3)/samples($0))\n');
-		/* Max Value */
-		gnuplot.stdin.write('max3(x) = (shift3(x), z = max(back1, back2), max(z, back3))\n');
-		gnuplot.stdin.write('max5(x) = (shift5(x), z1 = max(back1, back2), z2 = max(back3, back4), z3 = max(z1, z2), max(z3, back5))\n');
+		
 
 		/* Do the Plot */
 		gnuplot.stdin.write('plot sum = init(0),');
