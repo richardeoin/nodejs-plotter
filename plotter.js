@@ -132,7 +132,9 @@ function plot(options) {
 	}
 	/* Translate data into an object if needs be */
 	if (_.isArray(options.data)) {
-		options.data = { 'Series 1': options.data };
+		if (_.flatten(options.data) == options.data) { /* If it's a one-dimentional array */
+			options.data = { 'Series 1': options.data };
+		}
 	}
 
 	/* Defaults */
