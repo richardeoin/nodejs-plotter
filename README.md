@@ -24,8 +24,8 @@ I might put this on the [npm](https://npmjs.org/) registry in the future.
 var plot = require('plotter').plot;
 
 plot({
-	'data':		[ 3, 1, 2, 3, 4 ],
-	'filename':	'output.pdf'
+	data:		[ 3, 1, 2, 3, 4 ],
+	filename:	'output.pdf'
 });
 ```
 
@@ -44,13 +44,13 @@ The following example shows these in use:
 
 ```javascript
 plot({	
-	'data':		[ 3, 1, 2, 3, 4 ],
-	'filename':	'output.pdf',
-	'style':	'linespoints',
-	'title':	'Example \'Title\', \\n runs onto multiple lines',
-	'logscale':	true,
-	'xlabel':	'time',
-	'ylabel':	'length of string'
+	data:		[ 3, 1, 2, 3, 4 ],
+	filename:	'output.pdf',
+	style:		'linespoints',
+	title:		'Example \'Title\', \\n runs onto multiple lines',
+	logscale:	true,
+	xlabel:		'time',
+	ylabel:		'length of string'
 });
 ```
 
@@ -58,8 +58,8 @@ plot({
 
 ```javascript
 plot({
-	'data':		{ 'line' : { 1: 5, 5: 6 } },
-	'filename':	'output.pdf'
+	data:		{ 'line' : { 1: 5, 5: 6 } },
+	filename:	'output.pdf'
 });
 ```
 
@@ -69,8 +69,8 @@ Instead of specifing an array for `data`, you can specify an object with a named
 
 ```javascript
 plot({
-	'data':		{ 'tick' : [ 3, 1, 2, 3, 4 ], 'line' : { 1: 5, 5: 6 } },
-	'filename':	'output.pdf'
+	data:		{ 'tick' : [ 3, 1, 2, 3, 4 ], 'line' : { 1: 5, 5: 6 } },
+	filename:	'output.pdf'
 });
 ```
 
@@ -80,9 +80,9 @@ You can specify multiple series inside an object.
 
 ```javascript
 plot({
-	'data':		{ 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ] },
-	'filename':	'output.pdf',
-	'moving_avg':	4
+	data:		{ 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ] },
+	filename:	'output.pdf',
+	moving_avg:	4
 });
 ```
 
@@ -92,9 +92,9 @@ This will plot the points with a 4-point moving average. A `moving_max` can also
 
 ```javascript
 plot({
-	'data':		{ 'temperature' : { 1357162672: 22, 1357162782: 23, 1357162892: 24 } },
-	'time':		'hours',
-	'filename':	'output.pdf'
+	data:		{ 'temperature' : { 1357162672: 22, 1357162782: 23, 1357162892: 24 } },
+	time:		'hours',
+	filename:	'output.pdf'
 });
 ```
 
