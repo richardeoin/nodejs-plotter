@@ -34,11 +34,11 @@ Plotting is achieved by calling the plot function with an object containing vari
 ### Formatting ###
 
 The following properties can be used:
-* `'title'` - _Sets the title of the graph_
-* `'xlabel'` - _Sets the label on the x axis of the graph_
-* `'ylabel'` - _Sets the label on the y axis of the graph_
-* `'logscale'` - _Makes the y axis of the graph appear in a log scale_
-* `'style'` - _The style of the lines on the graph. Possibilites include `lines` (default), `points` and `linespoints`_
+* `title` - _Sets the title of the graph_
+* `xlabel` - _Sets the label on the x axis of the graph_
+* `ylabel` - _Sets the label on the y axis of the graph_
+* `logscale` - _Makes the y axis of the graph appear in a log scale_
+* `style` - _The style of the lines on the graph. Possibilites include `lines` (default), `points` and `linespoints`_
 
 The following example shows these in use:
 
@@ -98,7 +98,7 @@ plot({
 });
 ```
 
-The x axis can be formatted as a time series if the x values are given as a [unix time](http://en.wikipedia.org/wiki/Unix_time). The `'time'` property can be specified as either `'hours'` (the default), `'days'` or with a [gnuplot time format](http://gnuplot.sourceforge.net/docs_4.2/node274.html) like `'%H:%M'`.
+The x axis can be formatted as a time series if the x values are given as a [unix time](http://en.wikipedia.org/wiki/Unix_time). The `time` property can be specified as either `'hours'` (the default), `'days'` or with a [gnuplot time format](http://gnuplot.sourceforge.net/docs_4.2/node274.html) like `'%H:%M'`.
 
 ## LICENSE ###
 
