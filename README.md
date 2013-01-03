@@ -16,7 +16,7 @@ You can add this to your [node.js](http://nodejs.org/) [package.json](http://doc
 
 And if you have [npm](https://npmjs.org/) installed, just run `npm install`.
 
-I might put this on [npm](https://npmjs.org/) registry in the future.
+I might put this on the [npm](https://npmjs.org/) registry in the future.
 
 ## Usage ##
 
