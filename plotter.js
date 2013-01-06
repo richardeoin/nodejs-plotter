@@ -13,12 +13,14 @@ var _ = require('underscore');
 function moving_average(array, n) {
 	var nums = [];
 	
-	for (i in _.range(array.length)) { /* Sequential Foreach */
-		nums.push(array[i]);
-		if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
-		/* Take the average of the n items in this array */
-		var sum = _.reduce(nums, function(memo, num){ return memo + num; }, 0);
-		array[i] = sum/nums.length;
+	for (i in array) {
+		if (_.isNumber(array[i])) {
+			nums.push(array[i]);
+			if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
+			/* Take the average of the n items in this array */
+			var sum = _.reduce(nums, function(memo, num){ return memo + num; }, 0);
+			array[i] = sum/nums.length;
+		}
 	}
 	
 	return array;
@@ -29,12 +31,14 @@ function moving_average(array, n) {
 function moving_maximum(array, n) {
 	var nums = [];
 	
-	for (i in _.range(array.length)) { /* Sequential Foreach */
-		nums.push(array[i]);
-		if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
-		/* Take the average of the n items in this array */
-		var maximum = _.max(nums);
-		array[i] = maximum;
+	for (i in array) {
+		if (_.isNumber(array[i])) {
+			nums.push(array[i]);
+			if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
+			/* Take the average of the n items in this array */
+			var maximum = _.max(nums);
+			array[i] = maximum;
+		}
 	}
 	
 	return array;
