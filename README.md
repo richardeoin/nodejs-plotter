@@ -2,21 +2,17 @@
 
 ## Installation ##
 
+Prerequisites:
+
 ```
 sudo apt-get install gnuplot ghostscript
 ```
 
-You can add this to your [node.js](http://nodejs.org/) [package.json](http://docs.nodejitsu.com/articles/getting-started/npm/what-is-the-file-package-json)
+If you have [npm](https://npmjs.org/) installed, just run:
 
-```json
-	"dependencies": {
-		"plotter": "git+ssh://git@github.com:richardeoin/nodejs-plotter.git",
-	}
 ```
-
-And if you have [npm](https://npmjs.org/) installed, just run `npm install`.
-
-I might put this on the [npm](https://npmjs.org/) registry in the future.
+npm install plotter
+```
 
 ## Usage ##
 
