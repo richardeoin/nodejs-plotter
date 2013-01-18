@@ -11,9 +11,10 @@ var _ = require('underscore');
  * Performs a n-point moving average on array.
  */
 function moving_average(array, n) {
-	var nums = [];
-	
+    var nums = [];
+
 	for (i in array) {
+		/* If this item in the array is a number */
 		if (_.isNumber(array[i])) {
 			nums.push(array[i]);
 			if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
@@ -22,7 +23,7 @@ function moving_average(array, n) {
 			array[i] = sum/nums.length;
 		}
 	}
-	
+
 	return array;
 }
 /**
@@ -30,7 +31,7 @@ function moving_average(array, n) {
  */
 function moving_maximum(array, n) {
 	var nums = [];
-	
+
 	for (i in array) {
 		if (_.isNumber(array[i])) {
 			nums.push(array[i]);
@@ -40,21 +41,21 @@ function moving_maximum(array, n) {
 			array[i] = maximum;
 		}
 	}
-	
+
 	return array;
 }
 /**
  * Applys an n-point moving filter to a set of series.
  */
 function apply_moving_filter(set, filter, n) {
-	if (!_.isNumber(n)) { n = 3; }
-	
-	for (series in set) { /* For each series */
-		/* Apply the filter */
-		set[series] = filter(set[series], n);
-	}
-	
-	return set;
+    if (!_.isNumber(n)) { n = 3; }
+
+    for (series in set) { /* For each series */
+        /* Apply the filter */
+        set[series] = filter(set[series], n);
+    }
+
+    return set;
 }
 /**
  * Returns the string to give to gnuplot based on the value of options.time.
@@ -82,7 +83,7 @@ function time_format(options) {
 function setup_gnuplot(gnuplot, options) {
 	/* Setup Gnuplot output to postscript so ps2pdf can interpret it */
 	gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
-	
+
 	/* Formatting Options */
 	if (options.time) {
 		gnuplot.stdin.write('set xdata time\n');
@@ -102,13 +103,14 @@ function setup_gnuplot(gnuplot, options) {
 	if (options.ylabel) {
 		gnuplot.stdin.write('set ylabel "'+options.ylabel+'"\n');
 	}
-	
+
 	/* Setup ticks */
 	gnuplot.stdin.write('set grid xtics ytics mxtics\n');
 	gnuplot.stdin.write('set mxtics\n');
-	
-	/* TODO */
-	gnuplot.stdin.write('set nokey\n');
+
+	if (options.nokey) {
+		gnuplot.stdin.write('set nokey\n');
+	}
 }
 /**
  * Called after Gnuplot has finished.
@@ -120,7 +122,7 @@ function post_gnuplot_processing(error, stdout, stderr) {
 	if (error !== null) {
 		console.log('exec error: ' + error);
 	}
-} 
+}
 
 /* -------- Public Functions -------- */
 
@@ -145,7 +147,7 @@ function plot(options) {
 	if (!options.style) {
 		options.style = 'lines'; /* Default to lines */
 	}
-	
+
 	/* Apply moving averages and maximums */
 	if (options.moving_avg) {
 		options.data = apply_moving_filter(options.data, moving_average, options.moving_avg);
@@ -162,17 +164,17 @@ function plot(options) {
 
 	/* Find out how many series there are */
 	var series_count = _.values(options.data).length;
-	
+
 	/* Print the command to actually do the plot */
 	gnuplot.stdin.write('plot');
 	var i = 1;
-	while (1) {
-		gnuplot.stdin.write('\'-\' using 1:2 with '+options.style+' lt 1 lc '+(i++));
+	for (series in options.data) { /* For each series */
+		gnuplot.stdin.write('\'-\' using 1:2 title\''+series+'\' with '+options.style+' lt 1 lc '+(i++));
 		if (i > series_count) { break; }
 		gnuplot.stdin.write(',');
 	}
 	gnuplot.stdin.write('\n');
-	
+
 	/* Print out the data */
 	for (series in options.data) { /* For each series */
 		for (key in options.data[series]) { /* For each datapoint */

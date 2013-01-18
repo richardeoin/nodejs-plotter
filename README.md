@@ -39,7 +39,7 @@ The following properties can be used:
 The following example shows these in use:
 
 ```javascript
-plot({	
+plot({
 	data:		[ 3, 1, 2, 3, 4 ],
 	filename:	'output.pdf',
 	style:		'linespoints',

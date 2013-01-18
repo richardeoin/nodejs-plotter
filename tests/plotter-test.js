@@ -5,7 +5,7 @@ plot({
 	filename:	'output.pdf'
 });
 
-plot({	
+plot({
 	data:		[ 3, 1, 2, 3, 4 ],
 	filename:	'output2.pdf',
 	style:		'linespoints',
@@ -54,10 +54,19 @@ plot({
 
 plot({
 	title:		'example',
+	data:		{ 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ], 'line' : { 1: 5, 5: 6 } },
+	moving_max:	2,
+	style:		'lines',
+	filename:	'output8.pdf',
+	nokey:		true
+});
+
+plot({
+	title:		'example',
 	data:		{ 'temperature' : { 1357162672: 22, 1357162782: 23, 1357162892: 24 } },
 	time:		'hours',
 	style:		'linespoints',
-	filename:	'output8.pdf'
+	filename:	'output9.pdf'
 });
 
 
