@@ -7,6 +7,12 @@
 	"dependencies": {
 		"underscore" : "1.4.x"
 	},
+	"keywords": [
+		"plotting",
+		"graph",
+		"pdf",
+		"gnuplot"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/richardeoin/nodejs-plotter.git"
