@@ -35,6 +35,7 @@ The following properties can be used:
 * `ylabel` - _Sets the label on the y axis of the graph_
 * `logscale` - _Makes the y axis of the graph appear in a log scale_
 * `style` - _The style of the lines on the graph. Possibilites include `lines` (default), `points` and `linespoints`_
+* `nokey` - _Disables the graph key_
 
 The following example shows these in use:
 
