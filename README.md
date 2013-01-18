@@ -30,12 +30,12 @@ Plotting is achieved by calling the plot function with an object containing vari
 ### Formatting ###
 
 The following properties can be used:
-* `title` - _Sets the title of the graph_
-* `xlabel` - _Sets the label on the x axis of the graph_
-* `ylabel` - _Sets the label on the y axis of the graph_
-* `logscale` - _Makes the y axis of the graph appear in a log scale_
-* `style` - _The style of the lines on the graph. Possibilites include `lines` (default), `points` and `linespoints`_
-* `nokey` - _Disables the graph key_
+- `title` - _Sets the title of the graph_
+- `xlabel` - _Sets the label on the x axis of the graph_
+- `ylabel` - _Sets the label on the y axis of the graph_
+- `logscale` - _Makes the y axis of the graph appear in a log scale_
+- `style` - _The style of the lines on the graph. Possibilites include `lines` (default), `points` and `linespoints`_
+- `nokey` - _Disables the graph key_
 
 The following example shows these in use:
 
