@@ -3,7 +3,7 @@
 	"version": "0.1.3",
 	"description": "Turns an array of data into a graph in a pdf document.",
 	"main": "plotter.js",
-	"author": "Richard Meadows",
+	"author": "Richard Eoin <richardeoin@gmail.com>",
 	"dependencies": {
 		"underscore" : "1.4.x"
 	},
