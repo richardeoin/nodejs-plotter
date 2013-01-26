@@ -62,11 +62,20 @@ plot({
 });
 
 plot({
+	title:		'bad_example',
+	data:		{ 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : function(i) { return i; }, 'line' : { 1: 5, 5: 6 } },
+	moving_max:	2,
+	style:		'lines',
+	filename:	'output9.pdf',
+	nokey:		true
+});
+
+plot({
 	title:		'example',
 	data:		{ 'temperature' : { 1357162672: 22, 1357162782: 23, 1357162892: 24 } },
 	time:		'hours',
 	style:		'linespoints',
-	filename:	'output9.pdf'
+	filename:	'output10.pdf'
 });
 
 

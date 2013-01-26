@@ -162,23 +162,32 @@ function plot(options) {
 	/* Sets up gnuplot based on the properties we've been given in the options object */
 	setup_gnuplot(gnuplot, options);
 
-	/* Find out how many series there are */
-	var series_count = _.values(options.data).length;
+	/* Get an array containing all the series */
+	var series = _.keys(options.data);
+	/* Reject series that are functions or come from higher up the protoype chain */
+	var i;
+	for (i = 0; i < series.length; i += 1) {
+		if (!options.data.hasOwnProperty(series[i]) || typeof options.data[series[i]] === 'function') {
+			delete series[i]; /* undefine this element */
+		}
+	}
+	/* Filter out any undefined elements */
+	series = _.filter(series, function() { return true; });
 
 	/* Print the command to actually do the plot */
 	gnuplot.stdin.write('plot');
-	var i = 1;
-	for (series in options.data) { /* For each series */
-		gnuplot.stdin.write('\'-\' using 1:2 title\''+series+'\' with '+options.style+' lt 1 lc '+(i++));
-		if (i > series_count) { break; }
-		gnuplot.stdin.write(',');
+	for (i = 0; i < series.length; i += 1) { /* For each series */
+		/* Instruct gnuplot to plot this series */
+		gnuplot.stdin.write('\'-\' using 1:2 title\''+series[i]+'\' with '+options.style+' lt 1 lc '+i);
+		/* If another series is to follow, add a comma */
+		if (i < series.length-1) { gnuplot.stdin.write(','); }
 	}
 	gnuplot.stdin.write('\n');
 
 	/* Print out the data */
-	for (series in options.data) { /* For each series */
-		for (key in options.data[series]) { /* For each datapoint */
-			gnuplot.stdin.write(key+' '+options.data[series][key]+'\n');
+	for (i = 0; i < series.length; i += 1) { /* For each series */
+		for (key in options.data[series[i]]) {
+			gnuplot.stdin.write(key+' '+options.data[series[i]][key]+'\n');
 		}
 		/* Terminate the data */
 		gnuplot.stdin.write('e\n');
