@@ -81,8 +81,11 @@ function time_format(options) {
  * Sets up gnuplot based on the properties we're given in the options object.
  */
 function setup_gnuplot(gnuplot, options) {
-	/* Setup Gnuplot output to postscript so ps2pdf can interpret it */
-	gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
+	if (options.format === 'svg') { /* Setup gnuplot for SVG */
+		gnuplot.stdin.write('set term svg fname \"Helvetica\" fsize 14\n');
+	} else { /* Default: setup Gnuplot output to postscript so ps2pdf can interpret it */
+		gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
+	}
 
 	/* Formatting Options */
 	if (options.time) {
@@ -157,7 +160,11 @@ function plot(options) {
 	}
 
 	/* Execute Gnuplot specifing a function to be called when it terminates */
-	gnuplot = exec('gnuplot | ps2pdf - '+options.filename, post_gnuplot_processing);
+	if (options.format === 'svg') {
+		gnuplot = exec('gnuplot > '+options.filename, post_gnuplot_processing);
+	} else {
+		gnuplot = exec('gnuplot | ps2pdf - '+options.filename, post_gnuplot_processing);
+	}
 
 	/* Sets up gnuplot based on the properties we've been given in the options object */
 	setup_gnuplot(gnuplot, options);
