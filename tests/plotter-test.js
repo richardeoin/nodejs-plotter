@@ -4,7 +4,7 @@ var plot = require('../plotter').plot;
 
 plot({
 	data:		[ 3, 1, 2, 3, 4 ],
-	filename:	'output.pdf',
+	filename:	'output1.pdf',
 	format:		'pdf'
 });
 

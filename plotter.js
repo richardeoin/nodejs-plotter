@@ -183,11 +183,11 @@ function plot(options) {
 
 	/* Print the command to actually do the plot */
 	gnuplot.stdin.write('plot');
-	for (i = 0; i < series.length; i += 1) { /* For each series */
+	for (i = 1; i <= series.length; i += 1) { /* For each series */
 		/* Instruct gnuplot to plot this series */
 		gnuplot.stdin.write('\'-\' using 1:2 title\''+series[i]+'\' with '+options.style+' lt 1 lc '+i);
 		/* If another series is to follow, add a comma */
-		if (i < series.length-1) { gnuplot.stdin.write(','); }
+		if (i < series.length) { gnuplot.stdin.write(','); }
 	}
 	gnuplot.stdin.write('\n');
 
