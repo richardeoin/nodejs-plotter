@@ -185,7 +185,7 @@ function plot(options) {
 	gnuplot.stdin.write('plot');
 	for (i = 1; i <= series.length; i += 1) { /* For each series */
 		/* Instruct gnuplot to plot this series */
-		gnuplot.stdin.write('\'-\' using 1:2 title\''+series[i]+'\' with '+options.style+' lt 1 lc '+i);
+		gnuplot.stdin.write('\'-\' using 1:2 title\''+series[i - 1]+'\' with '+options.style+' lt 1 lc '+i);
 		/* If another series is to follow, add a comma */
 		if (i < series.length) { gnuplot.stdin.write(','); }
 	}
