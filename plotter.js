@@ -161,9 +161,9 @@ function plot(options) {
 
 	/* Execute Gnuplot specifing a function to be called when it terminates */
 	if (options.format === 'svg') {
-		gnuplot = exec('gnuplot > '+options.filename, post_gnuplot_processing);
+		gnuplot = exec('gnuplot > '+options.filename, (options.exec ? options.exec : {}), post_gnuplot_processing);
 	} else {
-		gnuplot = exec('gnuplot | ps2pdf - '+options.filename, post_gnuplot_processing);
+		gnuplot = exec('gnuplot | ps2pdf - '+options.filename, (options.exec ? options.exec : {}), post_gnuplot_processing);
 	}
 
 	/* Sets up gnuplot based on the properties we've been given in the options object */
