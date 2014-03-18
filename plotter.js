@@ -171,10 +171,13 @@ function plot(options) {
   /* Execute Gnuplot specifing a function to be called when it terminates */
   if (options.format === 'pdf') { /* Special setup for pdf */
     gnuplot = exec('gnuplot | ps2pdf - ' + options.filename,
-		   (options.exec ? options.exec : {}), post_gnuplot_processing);
+		   (options.exec ? options.exec : {}),
+		   options.finish || post_gnuplot_processing);
+
   } else { /* Default for everything else */
     gnuplot = exec('gnuplot > ' + options.filename,
-		   (options.exec ? options.exec : {}), post_gnuplot_processing);
+		   (options.exec ? options.exec : {}),
+		   options.finish || post_gnuplot_processing);
   }
 
   /* Sets up gnuplot based on the properties we've been given in the
