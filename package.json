@@ -1,6 +1,6 @@
 {
 	"name": "plotter",
-	"version": "0.4.3",
+	"version": "0.5.0",
 	"description": "Turns an array of data into a graph in a pdf document.",
 	"main": "plotter.js",
 	"author": "Richard Eoin <richardeoin@gmail.com>",
@@ -18,5 +18,5 @@
 		"url": "https://github.com/richardeoin/nodejs-plotter.git"
 	},
 	"license": "MIT",
-	"engine": "node >= 0.8.14"
+	"engine": "node >= 0.10.25"
 }
