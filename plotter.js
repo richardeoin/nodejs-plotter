@@ -17,7 +17,9 @@ function moving_average(array, n) {
     /* If this item in the array is a number */
     if (_.isNumber(array[i])) {
       nums.push(array[i]);
-      if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
+      if (nums.length > n) {
+	nums.splice(0,1); /* Remove the first element of the array */
+      }
       /* Take the average of the n items in this array */
       var sum = _.reduce(nums, function(memo, num){ return memo + num; }, 0);
       array[i] = sum/nums.length;
@@ -35,7 +37,9 @@ function moving_maximum(array, n) {
   for (i in array) {
     if (_.isNumber(array[i])) {
       nums.push(array[i]);
-      if (nums.length > n) { nums.splice(0,1); } /* Remove the first element of the array */
+      if (nums.length > n) {
+	nums.splice(0,1); /* Remove the first element of the array */
+      }
       /* Take the average of the n items in this array */
       var maximum = _.max(nums);
       array[i] = maximum;
@@ -85,7 +89,8 @@ function setup_gnuplot(gnuplot, options) {
     gnuplot.stdin.write('set term svg fname \"Helvetica\" fsize 14\n');
   } else if (options.format == 'pdf') {
     /* PDF: setup Gnuplot output to postscript so ps2pdf can interpret it */
-    gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
+    gnuplot.stdin.write('set term postscript landscape enhanced color dashed' +
+			'\"Helvetica\" 14\n');
   } else { /* Setup gnuplot for png */
     gnuplot.stdin.write('set term png\n');
   }
@@ -133,8 +138,8 @@ function post_gnuplot_processing(error, stdout, stderr) {
 /* -------- Public Functions -------- */
 
 /**
- * Plots data to a PDF file. If it does not exist, the PDF file will be created, otherwise this plot will
- * be appended as a new page.
+ * Plots data to a PDF file. If it does not exist, the PDF file will
+ * be created, otherwise this plot will be appended as a new page.
  */
 function plot(options) {
   /* Required Options */
@@ -144,7 +149,8 @@ function plot(options) {
   }
   /* Translate data into an object if needs be */
   if (_.isArray(options.data)) {
-    if (_.isEqual(_.flatten(options.data), options.data)) { /* If it's a one-dimentional array */
+    /* If it's a one-dimentional array */
+    if (_.isEqual(_.flatten(options.data), options.data)) {
       options.data = { 'Series 1': options.data };
     }
   }
@@ -164,12 +170,15 @@ function plot(options) {
 
   /* Execute Gnuplot specifing a function to be called when it terminates */
   if (options.format === 'pdf') { /* Special setup for pdf */
-    gnuplot = exec('gnuplot | ps2pdf - '+options.filename, (options.exec ? options.exec : {}), post_gnuplot_processing);
+    gnuplot = exec('gnuplot | ps2pdf - ' + options.filename,
+		   (options.exec ? options.exec : {}), post_gnuplot_processing);
   } else { /* Default for everything else */
-    gnuplot = exec('gnuplot > '+options.filename, (options.exec ? options.exec : {}), post_gnuplot_processing);
+    gnuplot = exec('gnuplot > ' + options.filename,
+		   (options.exec ? options.exec : {}), post_gnuplot_processing);
   }
 
-  /* Sets up gnuplot based on the properties we've been given in the options object */
+  /* Sets up gnuplot based on the properties we've been given in the
+   * options object */
   setup_gnuplot(gnuplot, options);
 
   /* Get an array containing all the series */
@@ -177,7 +186,8 @@ function plot(options) {
   /* Reject series that are functions or come from higher up the protoype chain */
   var i;
   for (i = 0; i < series.length; i += 1) {
-    if (!options.data.hasOwnProperty(series[i]) || typeof options.data[series[i]] === 'function') {
+    if (!options.data.hasOwnProperty(series[i]) ||
+	typeof options.data[series[i]] === 'function') {
       delete series[i]; /* undefine this element */
     }
   }
@@ -188,7 +198,8 @@ function plot(options) {
   gnuplot.stdin.write('plot');
   for (i = 1; i <= series.length; i += 1) { /* For each series */
     /* Instruct gnuplot to plot this series */
-    gnuplot.stdin.write('\'-\' using 1:2 title\''+series[i - 1]+'\' with '+options.style+' lt 1 lc '+i);
+    gnuplot.stdin.write('\'-\' using 1:2 title\'' + series[i - 1] +
+			'\' with ' + options.style + ' lt 1 lc ' + i);
     /* If another series is to follow, add a comma */
     if (i < series.length) { gnuplot.stdin.write(','); }
   }
@@ -197,7 +208,7 @@ function plot(options) {
   /* Print out the data */
   for (i = 0; i < series.length; i += 1) { /* For each series */
     for (key in options.data[series[i]]) {
-      gnuplot.stdin.write(key+' '+options.data[series[i]][key]+'\n');
+      gnuplot.stdin.write(key + ' ' + options.data[series[i]][key] + '\n');
     }
     /* Terminate the data */
     gnuplot.stdin.write('e\n');
