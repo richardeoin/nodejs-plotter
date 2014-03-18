@@ -1,4 +1,4 @@
-/* Richard Meadows 2012 */
+/* Richard Meadows 2012, 2013, 2014 */
 
 /* -------- Includes -------- */
 
