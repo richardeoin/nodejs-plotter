@@ -83,8 +83,11 @@ function time_format(options) {
 function setup_gnuplot(gnuplot, options) {
 	if (options.format === 'svg') { /* Setup gnuplot for SVG */
 		gnuplot.stdin.write('set term svg fname \"Helvetica\" fsize 14\n');
-	} else { /* Default: setup Gnuplot output to postscript so ps2pdf can interpret it */
+	} else if (options.format == 'pdf') {
+		/* PDF: setup Gnuplot output to postscript so ps2pdf can interpret it */
 		gnuplot.stdin.write('set term postscript landscape enhanced color dashed \"Helvetica\" 14\n');
+	} else { /* Setup gnuplot for png */
+		gnuplot.stdin.write('set term png\n');
 	}
 
 	/* Formatting Options */
@@ -160,10 +163,10 @@ function plot(options) {
 	}
 
 	/* Execute Gnuplot specifing a function to be called when it terminates */
-	if (options.format === 'svg') {
-		gnuplot = exec('gnuplot > '+options.filename, (options.exec ? options.exec : {}), post_gnuplot_processing);
-	} else {
+	if (options.format === 'pdf') { /* Special setup for pdf */
 		gnuplot = exec('gnuplot | ps2pdf - '+options.filename, (options.exec ? options.exec : {}), post_gnuplot_processing);
+	} else { /* Default for everything else */
+		gnuplot = exec('gnuplot > '+options.filename, (options.exec ? options.exec : {}), post_gnuplot_processing);
 	}
 
 	/* Sets up gnuplot based on the properties we've been given in the options object */

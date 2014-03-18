@@ -21,7 +21,7 @@ var plot = require('plotter').plot;
 
 plot({
 	data:		[ 3, 1, 2, 3, 4 ],
-	filename:	'output.pdf'
+	filename:	'output.png'
 });
 ```
 
@@ -29,7 +29,10 @@ Plotting is achieved by calling the plot function with an object containing vari
 
 ### Output format ###
 
-This defaults to `.pdf` but specifing `format: svg` changes the output to [.svg](http://www.w3.org/Graphics/SVG/).
+This defaults to `.png` but specifing `format: svg` changes the output
+to [.svg](http://www.w3.org/Graphics/SVG/) and `format: pdf` changes
+the output format to
+[.pdf](http://en.wikipedia.org/wiki/Portable_Document_Format).
 
 ```javascript
 var plot = require('plotter').plot;
@@ -61,7 +64,8 @@ plot({
 	title:		'Example \'Title\', \\n runs onto multiple lines',
 	logscale:	true,
 	xlabel:		'time',
-	ylabel:		'length of string'
+	ylabel:		'length of string',
+	format:		'pdf'
 });
 ```
 
@@ -70,7 +74,7 @@ plot({
 ```javascript
 plot({
 	data:		{ 'line' : { 1: 5, 5: 6 } },
-	filename:	'output.pdf'
+	filename:	'output.png'
 });
 ```
 
@@ -81,7 +85,7 @@ Instead of specifing an array for `data`, you can specify an object with a named
 ```javascript
 plot({
 	data:		{ 'tick' : [ 3, 1, 2, 3, 4 ], 'line' : { 1: 5, 5: 6 } },
-	filename:	'output.pdf'
+	filename:	'output.png'
 });
 ```
 
@@ -92,7 +96,7 @@ You can specify multiple series inside an object.
 ```javascript
 plot({
 	data:		{ 'tick' : [ 3, 1, 2, 3, 4, 15, 3, 2, 4, 11 ], 'tick2' : [ 3, 10, 2, 30, 4, 15, 3, 20, 4, 11 ] },
-	filename:	'output.pdf',
+	filename:	'output.png',
 	moving_avg:	4
 });
 ```
@@ -105,7 +109,7 @@ This will plot the points with a 4-point moving average. A `moving_max` can also
 plot({
 	data:		{ 'temperature' : { 1357162672: 22, 1357162782: 23, 1357162892: 24 } },
 	time:		'hours',
-	filename:	'output.pdf'
+	filename:	'output.png'
 });
 ```
 
