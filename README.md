@@ -131,6 +131,15 @@ or with a
 [gnuplot time format](http://gnuplot.sourceforge.net/docs_4.2/node274.html)
 like `'%H:%M'`.
 
+## Other options ##
+the options object might additionally contain the following:
+
+option | description | example
+-------|-------------|---------
+exec   | Specify options to the process executing gnuplot | `options.exec = { cwd : '/home/user/images' };`
+finish | Callback when gnuplot-process finishes | `options.finish = function(){ Console.log('hurray'); };`
+
+
 ## LICENSE ###
 
 MIT
