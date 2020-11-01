@@ -160,6 +160,10 @@ function plot(options) {
     options.style = 'lines'; /* Default to lines */
   }
 
+  if (!options.x_begin) {
+    options.x_begin = 0
+  }
+
   /* Apply moving averages and maximums */
   if (options.moving_avg) {
     options.data = apply_moving_filter(options.data, moving_average, options.moving_avg);
@@ -211,7 +215,7 @@ function plot(options) {
   /* Print out the data */
   for (i = 0; i < series.length; i += 1) { /* For each series */
     for (key in options.data[series[i]]) {
-      gnuplot.stdin.write(key + ' ' + options.data[series[i]][key] + '\n');
+      gnuplot.stdin.write(parseInt(options.x_begin) + parseInt(key) + ' ' + options.data[series[i]][key] + '\n');
     }
     /* Terminate the data */
     gnuplot.stdin.write('e\n');
